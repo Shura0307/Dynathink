@@ -2,7 +2,7 @@ import json
 import math
 import pickle as pkl
 
-data_path=''
+data_path='dataset/gsm8k_few.json'
 
 with open(data_path,'r') as f:
     SC_output = json.load(f)
