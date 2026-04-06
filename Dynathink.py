@@ -25,7 +25,7 @@ left_end=8 # extra queries of 'slow' questions
 SC_end=10  # total number of queries of one question
 
 
-for i in range(0,(int)(len(SC_output)),SC_end):
+for i in range(0,(int)(len(SC_output)),SC_end):        # 针对每一个问题的十条并列独立推理步骤
     # our method
     res = {}
     step_cal={}
@@ -34,27 +34,27 @@ for i in range(0,(int)(len(SC_output)),SC_end):
         if len(SC_output[i+j]['steps'])<min:
             min=len(SC_output[i+j]['steps'])
         if SC_output[i+j]['predicted_result']!=None:
-            if SC_output[i+j]['predicted_result'] not in res:
+            if SC_output[i+j]['predicted_result'] not in res:      # 用字典统计每个答案得票数
                 res[SC_output[i+j]['predicted_result']]=1
             else:
                 res[SC_output[i+j]['predicted_result']]+=1
-            if SC_output[i+j]['predicted_result'] not in step_cal:
+            if SC_output[i+j]['predicted_result'] not in step_cal:   # 用字典统计每个答案的最短推理步骤数
                 step_cal[SC_output[i+j]['predicted_result']]=len(SC_output[i+j]['steps'])
             else:
                 if step_cal[SC_output[i+j]['predicted_result']]>len(SC_output[i+j]['steps']):
                     step_cal[SC_output[i+j]['predicted_result']]=len(SC_output[i+j]['steps'])
-    ans_t=''
-    step_t=0
-    max=0
+    ans_t=''   # 得票数最多的答案
+    step_t=0   # 得票数最多的答案的最短推理路径长度
+    max=0      # 得票数最多的答案的票数
     for x in res:
         if res[x]>max:
             ans_t=x
             step_t=step_cal[x]
             max=res[x]
     ans=''
-    if max>=int(end/2)+1:
-        if min==step_t:
-            tot1+=1
+    if max>=int(end/2)+1:   # 票选结果合理  得票数大于一半 接下来进入路径最短判断
+        if min==step_t:     # min：全局最短推理步骤长度     step_t：得票数最多的票选结果的推理步骤长度
+            tot1+=1         # 计入快推理 直接出结果
             ans=ans_t
 
 
